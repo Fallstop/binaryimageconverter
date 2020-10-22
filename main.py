@@ -2,6 +2,17 @@
 import sys
 from PIL import Image
 import argparse
+import math
+
+
+def image_dimensions(x):
+    output = []
+    for i in range(1, x + 1):
+        if x % i == 0:
+            output.append(i)
+    center = output[len(output)//2]
+    return (x//center, center)
+           
 
 def convertImageToBinary(filename):
     image = Image.open(filename)
@@ -11,7 +22,8 @@ def convertImageToBinary(filename):
 def convertBinToImage(filename):
     with open(filename, "rb") as f:
         binaryCollections = f.read()
-    return Image.frombytes('L', (len(binaryCollections), 1),binaryCollections)
+    dimensions =  image_dimensions(len(binaryCollections))
+    return Image.frombytes('L',dimensions,binaryCollections)
 
 
 def main():
